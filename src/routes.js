@@ -21,6 +21,7 @@ const Routes = () => {
   return (
     <Router sceneStyle={{ marginTop: 70 }}>
       <Scene key="modularHome" component={scene.Home} title="m Home" initial />
+      <Scene key="errorPage" component={scene.ErrorToken} />
       {renderScenes(Scenes, scene)}
     </Router>
   )
