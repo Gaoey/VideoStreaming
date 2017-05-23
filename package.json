@@ -26,6 +26,17 @@
     "react-test-renderer": "16.0.0-alpha.6"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "setupFiles": [
+      "<rootDir>/src/config/jest/globalFetch.js"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/?!(react-native|native-base)"
+    ],
+    "moduleNameMapper": {
+      "^image![a-zA-Z0-9$_-]+$": "GlobalImageStub",
+      "^[@./a-zA-Z0-9$_-]+\\.(png|gif)$": "RelativeImageStub"
+    },
+    "versobe": true
   }
 }
