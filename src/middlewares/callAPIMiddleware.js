@@ -1,3 +1,4 @@
+
 import { assign, reduce } from 'lodash'
 import { Schema, normalize } from 'normalizr'
 import { expiredToken } from './expired'
@@ -5,8 +6,10 @@ import { isCallingAPI } from '../features/setting/settingActions'
 import api from './api'
 import { isEmpty } from '../utils/validation'
 import { configToken, project } from '../config'
+import statusCode from './statusCode.json'
 
 const ERROR_CODE_UNAUTHORIZED = 401
+const isFormatData = value => ((value.errors || value.error || value.data) ? true : false)
 
 export const paginationFromAPI = (json) => {
   if (!json.count) {
@@ -42,6 +45,29 @@ export const callApi = (endpoint, options = {}, schema, userToken) => {
 	}
 
 	return api[options.method.toLowerCase()](endpoint, payload, { Authorization: token })
+  .then(res => {
+    const { status } = res
+    const contentType = res.headers.get('content-type') || ''
+    // when response is not json
+    if(contentType && contentType.indexOf('application/json') === -1) {
+      return {
+        error: statusCode[status],
+        code: status
+      }
+    }
+    // when response is json
+    return res.json().then(data => {
+      // try to check data format.
+      if(!isFormatData(data) && options.shouldCheckDataFormat) {
+        return {
+          error: statusCode[status],
+          error_info: [data],
+          code: status
+        }
+      }
+      return data
+    })
+  })
   .then(json => {
     if (json.errors || json.error) {
       return Promise.reject(json)
@@ -51,9 +77,11 @@ export const callApi = (endpoint, options = {}, schema, userToken) => {
     const data = (schema) ? normalize(json.data, schema) : { result: json.data }
     return pagination ? assign({}, data, pagination) : data
 
-    }, err => {
-      return Promise.reject([(err instanceof Error) ? err.message : err])
-    })
+  }, err => {
+    const error = [(err instanceof Error) ? err.message : err]
+    console.log('error', error)
+    return Promise.reject({ error })
+  })
 }
 
 const callAPIMiddleware = ({ dispatch, getState }) => {
@@ -67,7 +95,7 @@ const callAPIMiddleware = ({ dispatch, getState }) => {
       ...params
     } = action
 
-    const options = { token: true, ...params.options }
+    const options = { token: true, shouldCheckDataFormat: true, ...params.options }
 
     if (!types) {
       // Normal action: pass it on
@@ -96,7 +124,13 @@ const callAPIMiddleware = ({ dispatch, getState }) => {
 
     if (options.token && isEmpty(getToken)) {
       configToken.redirect.emptyToken()
-      return
+      const textError = {
+        type: failureType,        
+        error: ['Token is invalid.'],        
+        code: 401,        
+        error_info: []        
+     }        
+     return new Promise(resolve => resolve(textError))
     }
 
     next(assign({}, payload, {
@@ -112,6 +146,7 @@ const callAPIMiddleware = ({ dispatch, getState }) => {
         }))
       },
       error => {
+        console.log('error', error)
         if (error.code === ERROR_CODE_UNAUTHORIZED && !getState()[project.name].settings.isCalling) {
           const calling = () => new Promise((resolve) => {
             dispatch(isCallingAPI(true))
