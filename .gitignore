@@ -55,3 +55,13 @@ fastlane/screenshots
 # modular kit
 android/
 ios/
+
+#vsCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+#Test coverage from jest
+coverage/
