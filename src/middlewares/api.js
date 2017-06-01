@@ -23,7 +23,7 @@ const apiUrl = endpoint =>(endpoint.indexOf('http://') === -1 && endpoint.indexO
 
 const buildUrl = (endpoint, query = {}) => R.compose(apiUrl, urlWithQuery(query), urlTrimStart('/'))(endpoint)
 
-const callApi = (url, options) => fetch(url, options).then(res => res.json())
+const callApi = (url, options) => fetch(url, options)
 
 const getMethod = (endpoint, query = {}, headers = {}) => {
   const options = prepareOptions('get', headers)
