@@ -11,7 +11,7 @@ fetch.mockResponseSuccess = (body) => {
       headers: {
         get: () => (['application/json'])
       },
-      json: () => Promise.resolve(JSON.parse(body))
+      json: () => Promise.resolve(body)
     })
   )
 }
