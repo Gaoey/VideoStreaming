@@ -1,11 +1,13 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
-import logger from 'redux-logger'
+import Sherlockholmes from 'sherlockholmes'
 import reducers from './reducers'
 import callAPIMiddleware from './middlewares/callAPIMiddleware'
 
+const { inspector } = new Sherlockholmes()
+
 export default (initialState) => {
-  const middlewares = [thunk, callAPIMiddleware, logger]
+  const middlewares = [thunk, callAPIMiddleware, inspector]
 
   const enhancer = compose(
     applyMiddleware(...middlewares),
