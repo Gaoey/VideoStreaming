@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { FeedContainer } from '../../features';
 
 // create a component
 class Home extends Component {
@@ -19,6 +20,8 @@ class Home extends Component {
           title="Form"
           color="blue"
           accessibilityLabel="Go to form scene" />
+
+        <FeedContainer />
       </View>
     );
   }
