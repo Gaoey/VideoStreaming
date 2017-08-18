@@ -7,12 +7,10 @@ import Routes from './routes'
 
 const store = configureStore();
 
-const App = () => {
-  return (
-    <Provider store={store}>
-      <Routes />
-    </Provider>
-  );
-};
+const App = () => (
+  <Provider store={store}>
+    <Routes />
+  </Provider>
+);
 
 AppRegistry.registerComponent(config.project.name, () => App);
