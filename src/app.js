@@ -4,15 +4,14 @@ import { Provider } from 'react-redux'
 import * as config from './config'
 import configureStore from './configureStore'
 import Routes from './routes'
+import './config/axios';
 
 const store = configureStore();
 
-const App = () => {
-  return (
-    <Provider store={store}>
-      <Routes />
-    </Provider>
-  );
-};
+const App = () => (
+  <Provider store={store}>
+    <Routes />
+  </Provider>
+);
 
 AppRegistry.registerComponent(config.project.name, () => App);
