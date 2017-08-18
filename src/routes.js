@@ -1,30 +1,23 @@
 import React from 'react'
 import { Scene, Router } from 'react-native-router-flux'
+import renderScenes from './utils/renderScene';
 import { project } from './config';
 import * as scene from './scenes'
 
 export const Scenes = [
-  { key: 'modularAbout', component: 'About', title: 'm About', options: {} },
-  { key: 'modularForm', component: 'Form', title: 'm Form', options: {} },
-  { key: 'modularDefaultForm', component: 'DefaultFrom', title: 'm DefaultForm', options: {} },
-  { key: 'modularInitForm', component: 'InitFrom', title: 'm InitForm', options: {} },
-  { key: 'modularValidateForm', component: 'ValidateFrom', title: 'm ValidateForm', options: {} },
+  { key: `${project.name}About`, component: 'About', title: 'm About', options: {} },
+  { key: `${project.name}Form`, component: 'Form', title: 'm Form', options: {} },
+  { key: `${project.name}DefaultForm`, component: 'DefaultFrom', title: 'm DefaultForm', options: {} },
+  { key: `${project.name}InitForm`, component: 'InitFrom', title: 'm InitForm', options: {} },
+  { key: `${project.name}ValidateForm`, component: 'ValidateFrom', title: 'm ValidateForm', options: {} },
 ]
 
-const renderScenes = (sceneArr = [], module) => {
-  return sceneArr.map((value, index) => {
-    return(<Scene key={value.key} component={module[value.component]} title={value.title}/>)
-  })
-}
-
-const Routes = () => {
-  return (
-    <Router sceneStyle={{ marginTop: 70 }}>
-      <Scene key="modularHome" component={scene.Home} title="m Home" initial />
-      <Scene key="errorPage" component={scene.ErrorToken} />
-      {renderScenes(Scenes, scene)}
-    </Router>
-  )
-}
+const Routes = () => (
+  <Router sceneStyle={{ marginTop: 70 }}>
+    <Scene key="modularHome" component={scene.Home} title="m Home" initial />
+    <Scene key="errorPage" component={scene.ErrorToken} />
+    {renderScenes(Scenes, scene)}
+  </Router>
+)
 
 export default Routes

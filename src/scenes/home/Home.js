@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { FeedContainer } from '../../features';
+import { project } from '../../config';
 
 // create a component
 class Home extends Component {
@@ -11,12 +12,12 @@ class Home extends Component {
       <View>
         <Text>Home on modular</Text>
         <Button
-          onPress={()=>Actions.modularAbout()}
+          onPress={() => Actions[`${project.name}About`]()}
           title="About Scene"
           color="orange"
           accessibilityLabel="Go to about scene" />
         <Button
-          onPress={()=>Actions.modularForm()}
+          onPress={() => Actions[`${project.name}Form`]()}
           title="Form"
           color="blue"
           accessibilityLabel="Go to form scene" />
