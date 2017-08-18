@@ -5,6 +5,7 @@ import Sherlockholmes from 'sherlockholmes'
 import { project } from './config'
 import reducers from './reducers'
 import callAPIMiddleware from './middlewares/callAPIMiddleware'
+import './config/axios';
 
 const { inspector } = new Sherlockholmes()
 
@@ -19,14 +20,10 @@ export default (initialState) => {
   }
 
   const enhancer = compose(
-    applyMiddleware(...middlewares),
-    global.reduxNativeDevTools ? global.reduxNativeDevTools(/*options*/) : nope => nope,
+    applyMiddleware(...middlewares)
   )
 
   const store = createStore(reducers, initialState, enhancer)
 
-  if (global.reduxNativeDevTools) {
-    global.reduxNativeDevTools.updateStore(store);
-  }
   return store
 }

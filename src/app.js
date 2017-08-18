@@ -4,7 +4,6 @@ import { Provider } from 'react-redux'
 import * as config from './config'
 import configureStore from './configureStore'
 import Routes from './routes'
-import './config/axios';
 
 const store = configureStore();
 
