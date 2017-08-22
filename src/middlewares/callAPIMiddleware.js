@@ -1,8 +1,9 @@
 
-import { assign, reduce } from 'lodash'
+import _, { assign, reduce } from 'lodash'
 import { Schema, normalize } from 'normalizr'
+import axios from 'axios'
 import { expiredToken } from './expired'
-import { isCallingAPI } from '../features/setting/settingActions'
+import isCallingAPI from '../features/setting/settingActions'
 import api from './api'
 import { isEmpty } from '../utils/validation'
 import { configToken, project } from '../config'
@@ -37,51 +38,50 @@ export const paginationFromAPI = (json) => {
 // This makes every API response have the same shape, regardless of how nested it was.
 export const callApi = (endpoint, options = {}, schema, userToken) => {
   let token = (userToken !== null && userToken !== '') ? userToken : null
+  axios.defaults.headers.common['Authorization'] = token
 
   let payload = options.body
   if (!options.method) {
     options.method = 'get'
     payload = options.query
-	}
+  }
 
-	return api[options.method.toLowerCase()](endpoint, payload, { Authorization: token })
-  .then(res => {
-    const { status } = res
-    const contentType = res.headers.get('content-type') || ''
-    // when response is not json
-    if(contentType && contentType.indexOf('application/json') === -1) {
-      return {
-        error: statusCode[status],
-        code: status
-      }
-    }
-    // when response is json
-    return res.json().then(data => {
-      // try to check data format.
-      if(!isFormatData(data) && options.shouldCheckDataFormat) {
+  return api[options.method.toLowerCase()](endpoint, payload)
+    .then(res => {
+      const { status } = res.data
+      const contentType = res.headers['content-type']
+
+      // when response is not json
+      if (contentType && contentType.indexOf('application/json') === -1) {
         return {
           error: statusCode[status],
-          error_info: [data],
           code: status
         }
       }
-      return data
+
+      // when response is json
+      if (!isFormatData(res.data) && options.shouldCheckDataFormat) {
+        return {
+          error: statusCode[status],
+          error_info: [res.data],
+          code: status
+        }
+      }
+      return res.data
     })
-  })
-  .then(json => {
-    if (json.errors || json.error) {
-      return Promise.reject(json)
-    }
+    .then((json) => {
+      if (json.errors || json.error) {
+        return Promise.reject(json)
+      }
 
-    const pagination = paginationFromAPI(json)
-    const data = (schema) ? normalize(json.data, schema) : { result: json.data }
-    return pagination ? assign({}, data, pagination) : data
+      const pagination = paginationFromAPI(json)
+      const data = (schema) ? normalize(json.data, schema) : { result: json.data }
+      return pagination ? assign({}, data, pagination) : data
 
-  }, err => {
-    const error = [(err instanceof Error) ? err.message : err]
-    console.log('error', error)
-    return Promise.reject({ error })
-  })
+    }, (err) => {
+      const error = _.get(err, 'response.data.message') || _.get(err, 'response.data.error') || _.get(err, 'response.data.errors') || [(err instanceof Error) ? err.message : err]
+      return Promise.reject({ error, code: _.get(err, 'response.status') || 0, error_info: _.get(err, 'response.data.error_info') || '' })
+    })
 }
 
 const callAPIMiddleware = ({ dispatch, getState }) => {
@@ -125,12 +125,12 @@ const callAPIMiddleware = ({ dispatch, getState }) => {
     if (options.token && isEmpty(getToken)) {
       configToken.redirect.emptyToken()
       const textError = {
-        type: failureType,        
-        error: ['Token is invalid.'],        
-        code: 401,        
-        error_info: []        
-     }        
-     return new Promise(resolve => resolve(textError))
+        type: failureType,
+        error: ['Token is invalid.'],
+        code: 401,
+        error_info: []
+      }
+      return new Promise(resolve => resolve(textError))
     }
 
     next(assign({}, payload, {
@@ -146,7 +146,6 @@ const callAPIMiddleware = ({ dispatch, getState }) => {
         }))
       },
       error => {
-        console.log('error', error)
         if (error.code === ERROR_CODE_UNAUTHORIZED && !getState()[project.name].settings.isCalling) {
           const calling = () => new Promise((resolve) => {
             dispatch(isCallingAPI(true))
@@ -166,3 +165,4 @@ const callAPIMiddleware = ({ dispatch, getState }) => {
 }
 
 export default callAPIMiddleware
+

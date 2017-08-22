@@ -1,7 +1,7 @@
-import { 
-  FETCH_POSTS_REQUEST, 
-  FETCH_POSTS_SUCCESS, 
-  FETCH_POSTS_FAILURE 
+import {
+  FETCH_POSTS_REQUEST,
+  FETCH_POSTS_SUCCESS,
+  FETCH_POSTS_FAILURE
 } from '../../constants/ActionTypes'
 
 function fetchPostsFailure(error) {
@@ -21,15 +21,14 @@ function fetchPostsSuccess(data) {
   };
 }
 
-function fetchPosts() {
+function fetchPosts(axios) {
   return dispatch => {
     dispatch({
       type: FETCH_POSTS_REQUEST
     });
-    return fetch('https://jsonplaceholder.typicode.com/posts')
-      .then((response) => response.json())
+    return axios('https://jsonplaceholder.typicode.com/posts')
       .then(
-        data => dispatch(fetchPostsSuccess(data)),
+        data => dispatch(fetchPostsSuccess(data.data)),
         error => dispatch(fetchPostsFailure(error))
       );
   };
@@ -37,14 +36,14 @@ function fetchPosts() {
 
 function shouldFetchPosts(state) {
   const posts = state.posts
-  //return !(posts.value.children instanceof Array || posts.isFetching);
+  // return !(posts.value.children instanceof Array || posts.isFetching);
   return true
 }
 
 export function fetchPostsIfNeeded() {
-  return (dispatch, getState) => {
+  return (dispatch, getState, axios) => {
     if (shouldFetchPosts(getState())) {
-      return dispatch(fetchPosts())
+      return dispatch(fetchPosts(axios))
     }
   };
 }
