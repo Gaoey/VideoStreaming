@@ -4,7 +4,7 @@ import { Actions } from 'react-native-router-flux'
 // when you have new token key you can config object key here such as 'userState.user.token'
 const configTokenKey = ''
 // config token when you need to fetch api without token from state in redux store
-const customToken = 'abcde'
+const customToken = ''
 
 const getTokenFromState = state => {
   const stateToken = customToken || _.get(state, configTokenKey || 'authentication.token') || ''
