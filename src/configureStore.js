@@ -5,14 +5,15 @@ import Sherlockholmes from 'sherlockholmes'
 import { project } from './config'
 import reducers from './reducers'
 import callAPIMiddleware from './middlewares/callAPIMiddleware'
-import './config/axios';
+import axiosMiddleWare from './middlewares/axiosMiddleware';
 
 const { inspector } = new Sherlockholmes()
 
 export default (initialState) => {
   const middlewares = [
-    thunk.withExtraArgument(axios),
-    callAPIMiddleware
+    callAPIMiddleware,
+    axiosMiddleWare,
+    thunk.withExtraArgument(axios)
   ]
 
   if (project.ENVIRONMENT === 'dev') {
