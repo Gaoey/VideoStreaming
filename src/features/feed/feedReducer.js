@@ -1,13 +1,13 @@
-import { 
-  FETCH_POSTS_REQUEST, 
-  FETCH_POSTS_SUCCESS, 
-  FETCH_POSTS_FAILURE 
+import {
+  FETCH_POSTS_REQUEST,
+  FETCH_POSTS_SUCCESS,
+  FETCH_POSTS_FAILURE
 } from '../../constants/ActionTypes'
 
 function posts(state = {
   isFetching: false,
   error: false,
-  lastUpdated: 0,
+  meta: {},
   value: []
 }, action) {
   switch (action.type) {
@@ -21,7 +21,8 @@ function posts(state = {
       return {
         ...state,
         isFetching: false,
-        value: action.payload
+        value: action.payload,
+        meta: action.meta,
       };
     case FETCH_POSTS_FAILURE:
       return {

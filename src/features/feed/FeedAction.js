@@ -15,9 +15,12 @@ function fetchPostsSuccess(data) {
   return {
     type: FETCH_POSTS_SUCCESS,
     meta: {
-      receivedAt: Date.now()
+      receivedAt: Date.now(),
+      config: data.config,
+      headers: data.headers,
+      request: data.request
     },
-    payload: data
+    payload: data.data
   };
 }
 
@@ -28,7 +31,7 @@ function fetchPosts(axios) {
     });
     return axios('https://jsonplaceholder.typicode.com/posts')
       .then(
-        data => dispatch(fetchPostsSuccess(data.data)),
+        data => dispatch(fetchPostsSuccess(data)),
         error => dispatch(fetchPostsFailure(error))
       );
   };
