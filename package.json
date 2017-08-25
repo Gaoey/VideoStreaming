@@ -1,11 +1,16 @@
 {
   "name": "ModularKit",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "main": "src/",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "logger": "sherlockholmes start",
-    "test": "jest"
+    "test": "jest",
+    "clean": "rm -rf node_modules && watchman watch-del-all && npm cache clean",
+    "test": "jest --colors --coverage",
+    "test:watch": "jest --watch --colors --coverage",
+    "lint": "node node_modules/eslint/bin/eslint.js . --fix --ignore-path .gitignore --format=node_modules/eslint-formatter-pretty",
+    "lint-validate": "node node_modules/eslint/bin/eslint.js .  --ignore-path .gitignore  --quiet"
   },
   "dependencies": {
     "axios": "0.16.1",
@@ -15,10 +20,13 @@
     "react": "16.0.0-alpha.12",
     "react-native": "0.46.0",
     "react-native-router-flux": "3.38.0",
+    "react-native-linear-gradient": "2.0.0",
+    "react-native-material-kit": "0.4.1",
     "react-redux": "5.0.4",
     "redux": "3.6.0",
     "redux-form": "6.6.3",
-    "redux-thunk": "2.2.0"
+    "redux-thunk": "2.2.0",
+    "mascot": "git+ssh://bitbucket.org/dotography-code/mascot.git"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
