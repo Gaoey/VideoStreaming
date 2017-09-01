@@ -1,19 +1,15 @@
-import {
-  FETCH_POSTS_REQUEST,
-  FETCH_POSTS_SUCCESS,
-  FETCH_POSTS_FAILURE
-} from '../../constants/ActionTypes'
+import { FETCH_POSTS } from '../../constants/ActionTypes'
 
 function fetchPostsFailure(error) {
   return {
-    type: FETCH_POSTS_FAILURE,
+    type: FETCH_POSTS.FAILURE,
     payload: error.message
   }
 }
 
 function fetchPostsSuccess(data) {
   return {
-    type: FETCH_POSTS_SUCCESS,
+    type: FETCH_POSTS.SUCCESS,
     meta: {
       receivedAt: Date.now(),
       config: data.config,
@@ -27,7 +23,7 @@ function fetchPostsSuccess(data) {
 function fetchPosts(axios) {
   return (dispatch) => {
     dispatch({
-      type: FETCH_POSTS_REQUEST
+      type: FETCH_POSTS.REQUEST
     })
     return axios('https://jsonplaceholder.typicode.com/posts')
       .then(

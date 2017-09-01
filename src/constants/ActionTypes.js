@@ -1,6 +1,6 @@
-export const FETCH_POSTS_REQUEST = 'FETCH_POSTS_REQUEST'
-export const FETCH_POSTS_SUCCESS = 'FETCH_POSTS_SUCCESS'
-export const FETCH_POSTS_FAILURE = 'FETCH_POSTS_FAILURE'
+import { generateActionType } from '../utils/utilFunctions'
 
+export const FETCH_POSTS = generateActionType('FETCH_POSTS')
 export const SET_API_IS_CALLING_TRUE = 'SET_API_IS_CALLING_TRUE'
 export const SET_API_IS_CALLING_FALSE = 'SET_API_IS_CALLING_FALSE'
+
