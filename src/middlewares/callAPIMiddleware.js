@@ -37,8 +37,8 @@ export const paginationFromAPI = (json) => {
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
 export const callApi = (endpoint, options = {}, schema, userToken) => {
-  let token = (userToken !== null && userToken !== '') ? userToken : null
-  axios.defaults.headers.common['Authorization'] = token
+  const token = (userToken !== null && userToken !== '') ? userToken : null
+  axios.defaults.headers.common.Authorization = token
 
   let payload = options.body
   if (!options.method) {
@@ -47,7 +47,7 @@ export const callApi = (endpoint, options = {}, schema, userToken) => {
   }
 
   return api[options.method.toLowerCase()](endpoint, payload)
-    .then(res => {
+    .then((res) => {
       const { status } = res.data
       const contentType = res.headers['content-type']
 
@@ -77,16 +77,14 @@ export const callApi = (endpoint, options = {}, schema, userToken) => {
       const pagination = paginationFromAPI(json)
       const data = (schema) ? normalize(json.data, schema) : { result: json.data }
       return pagination ? assign({}, data, pagination) : data
-
     }, (err) => {
       const error = _.get(err, 'response.data.message') || _.get(err, 'response.data.error') || _.get(err, 'response.data.errors') || [(err instanceof Error) ? err.message : err]
       return Promise.reject({ error, code: _.get(err, 'response.status') || 0, error_info: _.get(err, 'response.data.error_info') || '' })
     })
 }
 
-const callAPIMiddleware = ({ dispatch, getState }) => {
-  return next => action => {
-    const {
+const callAPIMiddleware = ({ dispatch, getState }) => next => (action) => {
+  const {
       types,
       endpoint,
       schema = '',
@@ -95,57 +93,55 @@ const callAPIMiddleware = ({ dispatch, getState }) => {
       ...params
     } = action
 
-    const options = { token: true, shouldCheckDataFormat: true, ...params.options }
+  const options = { token: true, shouldCheckDataFormat: true, ...params.options }
 
-    if (!types) {
+  if (!types) {
       // Normal action: pass it on
-      return next(action)
-    }
+    return next(action)
+  }
 
-    if (
+  if (
       !Array.isArray(types) ||
       types.length !== 3 ||
       !types.every(type => typeof type === 'string')
     ) {
-      throw new Error('Expected an array of three string types.')
+    throw new Error('Expected an array of three string types.')
+  }
+
+  if (typeof endpoint !== 'string') {
+    throw new Error('Specify a string endpoint URL.')
+  }
+
+  if (!shouldCallAPI(getState())) {
+    return
+  }
+
+  const [requestType, successType, failureType] = types
+
+  const getToken = configToken.getToken(getState())
+
+  if (options.token && isEmpty(getToken)) {
+    configToken.redirect.emptyToken()
+    const textError = {
+      type: failureType,
+      error: ['Token is invalid.'],
+      code: 401,
+      error_info: []
     }
+    return new Promise(resolve => resolve(textError))
+  }
 
-    if (typeof endpoint !== 'string') {
-      throw new Error('Specify a string endpoint URL.')
-    }
+  next(assign({}, payload, {
+    type: requestType
+  }))
 
-    if (!shouldCallAPI(getState())) {
-      return
-    }
-
-    const [requestType, successType, failureType] = types
-
-    const getToken = configToken.getToken(getState())
-
-    if (options.token && isEmpty(getToken)) {
-      configToken.redirect.emptyToken()
-      const textError = {
-        type: failureType,
-        error: ['Token is invalid.'],
-        code: 401,
-        error_info: []
-      }
-      return new Promise(resolve => resolve(textError))
-    }
-
-    next(assign({}, payload, {
-      type: requestType
-    }))
-
-    return callApi(endpoint, options, schema, getToken).then(
-      response => {
-        return next(assign({}, payload, {
-          type: successType,
-          data: response,
-          receivedAt: Date.now()
-        }))
-      },
-      error => {
+  return callApi(endpoint, options, schema, getToken).then(
+      response => next(assign({}, payload, {
+        type: successType,
+        data: response,
+        receivedAt: Date.now()
+      })),
+      (error) => {
         if (error.code === ERROR_CODE_UNAUTHORIZED && !getState()[project.name].settings.isCalling) {
           const calling = () => new Promise((resolve) => {
             dispatch(isCallingAPI(true))
@@ -161,7 +157,6 @@ const callAPIMiddleware = ({ dispatch, getState }) => {
         }))
       }
     )
-  }
 }
 
 export default callAPIMiddleware

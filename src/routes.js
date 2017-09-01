@@ -1,7 +1,7 @@
 import React from 'react'
 import { Scene, Router } from 'react-native-router-flux'
-import renderScenes from './utils/renderScene';
-import { project } from './config';
+import renderScenes from './utils/renderScene'
+import { project } from './config'
 import * as scene from './scenes'
 
 export const Scenes = [

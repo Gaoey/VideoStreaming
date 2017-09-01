@@ -8,7 +8,7 @@ function fetchPostsFailure(error) {
   return {
     type: FETCH_POSTS_FAILURE,
     payload: error.message
-  };
+  }
 }
 
 function fetchPostsSuccess(data) {
@@ -21,20 +21,20 @@ function fetchPostsSuccess(data) {
       request: data.request
     },
     payload: data.data
-  };
+  }
 }
 
 function fetchPosts(axios) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: FETCH_POSTS_REQUEST
-    });
+    })
     return axios('https://jsonplaceholder.typicode.com/posts')
       .then(
         data => dispatch(fetchPostsSuccess(data)),
         error => dispatch(fetchPostsFailure(error))
-      );
-  };
+      )
+  }
 }
 
 function shouldFetchPosts(state) {
@@ -48,5 +48,5 @@ export function fetchPostsIfNeeded() {
     if (shouldFetchPosts(getState())) {
       return dispatch(fetchPosts(axios))
     }
-  };
+  }
 }

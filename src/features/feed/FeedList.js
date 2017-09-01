@@ -1,6 +1,6 @@
-//import liraries
-import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+// import liraries
+import React, { Component } from 'react'
+import { View, Text, StyleSheet } from 'react-native'
 import FeedItem from './FeedItem'
 
 // create a component
@@ -11,17 +11,15 @@ class FeedList extends Component {
       <View>
         { isFetching ? <Text>loading</Text> : null }
         { error ? <Text>{error}</Text> : null }
-        { 
+        {
           value ?
-          value.map((data, index) => {
-            return(<FeedItem key={data.id} title={data.title} />)
-          }) :
+          value.map((data, index) => (<FeedItem key={data.id} title={data.title} />)) :
           null
         }
       </View>
-    );
+    )
   }
 }
 
-//make this component available to the app
-export default FeedList;
+// make this component available to the app
+export default FeedList

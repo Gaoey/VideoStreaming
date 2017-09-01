@@ -16,23 +16,23 @@ function posts(state = {
         ...state,
         isFetching: true,
         error: false
-      };
+      }
     case FETCH_POSTS_SUCCESS:
       return {
         ...state,
         isFetching: false,
         value: action.payload,
         meta: action.meta,
-      };
+      }
     case FETCH_POSTS_FAILURE:
       return {
         ...state,
         isFetching: false,
         error: action.payload
-      };
+      }
     default:
-      return state;
+      return state
   }
 }
 
-export default posts;
+export default posts

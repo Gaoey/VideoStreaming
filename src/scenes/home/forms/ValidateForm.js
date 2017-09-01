@@ -1,15 +1,15 @@
-//import liraries
-import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+// import liraries
+import React, { Component } from 'react'
+import { View, Text, StyleSheet, Button } from 'react-native'
 import { Field, reduxForm } from 'redux-form'
 
-import { TextField } from '../../../common';
-import formValidation from './formValidation.js';
+import { TextField } from '../../../common'
+import formValidation from './formValidation.js'
 
 // create a component
 class ValidateForm extends Component {
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit } = this.props
     return (
       <View style={styles.container}>
         <Text>ValidateForm</Text>
@@ -22,7 +22,7 @@ class ValidateForm extends Component {
             color="red" />
         </View>
       </View>
-    );
+    )
   }
 }
 
@@ -31,9 +31,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-});
+})
 
-const validate = values => {
+const validate = (values) => {
   const errors = {}
   if (!values.username) {
     errors.username = 'Required'
@@ -52,12 +52,12 @@ const validate = values => {
 
 ValidateForm = reduxForm({
   form: 'validate',
-  validate: validate,
+  validate,
   onSubmit: (values, dispatch) => {
     alert('submit')
-    //dispatch(createPost(values))
+    // dispatch(createPost(values))
   }
 })(ValidateForm)
 
-//make this component available to the app
-export default ValidateForm;
+// make this component available to the app
+export default ValidateForm

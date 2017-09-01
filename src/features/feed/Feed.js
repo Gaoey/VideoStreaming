@@ -1,14 +1,12 @@
-//import liraries
+// import liraries
 import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import FeedContainer from './FeedContainer'
 
 // create a component
-const Feed = () => {
-  return (
-    <FeedContainer />
+const Feed = () => (
+  <FeedContainer />
   )
-}
 
-//make this component available to the app
+// make this component available to the app
 export default Feed

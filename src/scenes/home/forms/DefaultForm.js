@@ -1,14 +1,14 @@
-//import liraries
+// import liraries
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, Button } from 'react-native'
 import { Field, reduxForm } from 'redux-form'
 
-import { TextField } from '../../../common';
+import { TextField } from '../../../common'
 
 // create a component
 class DefaultForm extends Component {
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit } = this.props
     return (
       <View style={styles.container}>
         <Text>DefaultForm</Text>
@@ -20,7 +20,7 @@ class DefaultForm extends Component {
             color="red" />
         </View>
       </View>
-    );
+    )
   }
 }
 
@@ -35,9 +35,9 @@ DefaultForm = reduxForm({
   form: 'newPost',
   onSubmit: (values, dispatch) => {
     alert('submit')
-    //dispatch(createPost(values))
+    // dispatch(createPost(values))
   }
 })(DefaultForm)
 
-//make this component available to the app
-export default DefaultForm;
+// make this component available to the app
+export default DefaultForm
