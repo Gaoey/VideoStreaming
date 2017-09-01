@@ -15,16 +15,12 @@ export default (initialState) => {
     axiosMiddleWare,
     thunk.withExtraArgument(axios)
   ]
-
   if (project.ENVIRONMENT === 'dev') {
     middlewares.push(inspector)
   }
-
   const enhancer = compose(
     applyMiddleware(...middlewares)
   )
-
   const store = createStore(reducers, initialState, enhancer)
-
   return store
 }

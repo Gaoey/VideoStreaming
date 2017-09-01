@@ -29,8 +29,6 @@ const setFinallyApi = (nextApi) => {
   }
 }
 
-Object.keys(api).map((url) => {
-  setFinallyApi({ [url]: api[url][RELEASE_VERSION][ENVIRONMENT] })
-})
+Object.keys(api).map(url => setFinallyApi({ [url]: api[url][RELEASE_VERSION][ENVIRONMENT] }))
 
 export default finallyApi

@@ -1,6 +1,5 @@
-// import liraries
-import React, { Component } from 'react'
-import { View, Text, StyleSheet, TextInput } from 'react-native'
+import React from 'react'
+import { View, Text, TextInput } from 'react-native'
 
 // create a component
 const TextField = ({ input, label, type, meta: { touched, error, warning } }) => (

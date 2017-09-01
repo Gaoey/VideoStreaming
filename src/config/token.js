@@ -7,7 +7,7 @@ const configTokenKey = ''
 const customToken = ''
 
 const getTokenFromState = (state) => {
-  const stateToken = customToken || _.get(state, configTokenKey || 'authentication.token') || ''
+  const stateToken = customToken || _.get(state, configTokenKey || 'authentication.token') || ''
   return stateToken
 }
 
@@ -23,7 +23,7 @@ const redirectScene = {
   }
 }
 
-const redirect = _.mapValues(redirectScene, (value, key) => () => Actions[value.key](value.props))
+const redirect = _.mapValues(redirectScene, value => () => Actions[value.key](value.props))
 
 const config = {
   getToken: getTokenFromState,
