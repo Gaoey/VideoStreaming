@@ -1,15 +1,15 @@
-//import liraries
-import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
-import { connect } from 'react-redux';
+// import liraries
+import React, { Component } from 'react'
+import { View, Text, StyleSheet, Button } from 'react-native'
+import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 
-import { TextField } from '../../../common';
+import { TextField } from '../../../common'
 
 // create a component
 class InitForm extends Component {
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit } = this.props
     return (
       <View style={styles.container}>
         <Text>InitForm</Text>
@@ -21,7 +21,7 @@ class InitForm extends Component {
             color="red" />
         </View>
       </View>
-    );
+    )
   }
 }
 
@@ -30,28 +30,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-});
+})
 
 InitForm = reduxForm({
   form: 'editPost'
 })(InitForm)
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    initialValues: {
-      myField: 'test test test'
-    }
+const mapStateToProps = (state, ownProps) => ({
+  initialValues: {
+    myField: 'test test test'
   }
-}
+})
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    onSubmit: (values) => {
-      alert('submit')
-      //dispatch(editPost(values, ownProps.params.id))
-    }
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  onSubmit: (values) => {
+    alert('submit')
+      // dispatch(editPost(values, ownProps.params.id))
   }
-}
+})
 
-//make this component available to the app
-export default connect(mapStateToProps, mapDispatchToProps)(InitForm);
+// make this component available to the app
+export default connect(mapStateToProps, mapDispatchToProps)(InitForm)

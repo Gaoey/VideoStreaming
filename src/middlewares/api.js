@@ -4,6 +4,7 @@ import { trimStart, forEach, assign, isUndefined, omitBy } from 'lodash'
 import R from 'ramda'
 import api from '../constants/api'
 import { endpointWithParams } from '../utils/url'
+
 const { API_ROOT } = api
 
 const prepareHeader = (data) => {
@@ -17,9 +18,9 @@ const prepareHeader = (data) => {
 
 const prepareOptions = (method, headers = {}, body) => omitBy(assign({}, { method, headers: prepareHeader(headers) }, { body }), isUndefined)
 
-const urlTrimStart = (trim) => (url) => trimStart(url, trim)
-const urlWithQuery = (query) => (url) => endpointWithParams(url, query)
-const apiUrl = endpoint =>(endpoint.indexOf('http://') === -1 && endpoint.indexOf('https://') === -1) ? API_ROOT + endpoint : endpoint
+const urlTrimStart = trim => url => trimStart(url, trim)
+const urlWithQuery = query => url => endpointWithParams(url, query)
+const apiUrl = endpoint => (endpoint.indexOf('http://') === -1 && endpoint.indexOf('https://') === -1) ? API_ROOT + endpoint : endpoint
 
 const buildUrl = (endpoint, query = {}) => R.compose(apiUrl, urlWithQuery(query), urlTrimStart('/'))(endpoint)
 

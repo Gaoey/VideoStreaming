@@ -1,6 +1,6 @@
 import React from 'react'
 import { Scene } from 'react-native-router-flux'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 const sceneItem = ({ key, component, options, childrens = [] }, module) => {
   const props = {
@@ -28,4 +28,4 @@ sceneItem.propTypes = {
   options: PropTypes.object
 }
 
-export default renderScenes;
+export default renderScenes

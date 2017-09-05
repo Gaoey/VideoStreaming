@@ -1,15 +1,19 @@
-//import liraries
-import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { Component } from 'react'
+import { PropTypes } from 'prop-types'
+import { View, Text } from 'react-native'
 
-// create a component
-const FeedItem = ({title}) => {
-  return (
-    <View>
-      <Text>{title}</Text>
-    </View>
-  );
-};
+class FeedItem extends Component {
+  static propTypes = {
+    title: PropTypes.string
+  }
+  render() {
+    const { title } = this.props
+    return (
+      <View>
+        <Text>{title}</Text>
+      </View>
+    )
+  }
+}
 
-//make this component available to the app
-export default FeedItem;
+export default FeedItem

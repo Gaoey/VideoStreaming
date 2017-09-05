@@ -1,3 +1,4 @@
+/* eslint import/first: 0 */
 import './themeConfig'
 import React from 'react'
 import { AppRegistry } from 'react-native'

@@ -5,4 +5,4 @@ import settings from './setting/settingReducer'
 export default combineReducers({
   feed: posts,
   settings
-});
+})
