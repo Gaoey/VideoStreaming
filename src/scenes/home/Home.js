@@ -1,9 +1,9 @@
-//import liraries
-import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
-import { Actions } from 'react-native-router-flux';
-import { FeedContainer } from '../../features';
-import { project } from '../../config';
+// import liraries
+import React, { Component } from 'react'
+import { View, Text, StyleSheet, Button } from 'react-native'
+import { Actions } from 'react-native-router-flux'
+import { FeedContainer } from '../../features'
+import { project } from '../../config'
 
 // create a component
 class Home extends Component {
@@ -24,7 +24,7 @@ class Home extends Component {
 
         <FeedContainer />
       </View>
-    );
+    )
   }
 }
 
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-});
+})
 
-//make this component available to the app
-export default Home;
+// make this component available to the app
+export default Home

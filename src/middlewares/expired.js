@@ -1,5 +1,4 @@
 import { Alert } from 'react-native'
-import { Actions } from 'react-native-router-flux'
 import { isCallingAPI } from '../features/setting/settingActions'
 import { configToken } from '../config'
 

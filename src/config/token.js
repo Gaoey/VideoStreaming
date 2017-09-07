@@ -6,8 +6,8 @@ const configTokenKey = ''
 // config token when you need to fetch api without token from state in redux store
 const customToken = ''
 
-const getTokenFromState = state => {
-  const stateToken = customToken || _.get(state, configTokenKey || 'authentication.token') || ''
+const getTokenFromState = (state) => {
+  const stateToken = customToken || _.get(state, configTokenKey || 'authentication.token') || ''
   return stateToken
 }
 
@@ -23,9 +23,7 @@ const redirectScene = {
   }
 }
 
-const redirect = _.mapValues(redirectScene, (value, key) => {
-  return () => Actions[value.key](value.props)
-})
+const redirect = _.mapValues(redirectScene, value => () => Actions[value.key](value.props))
 
 const config = {
   getToken: getTokenFromState,

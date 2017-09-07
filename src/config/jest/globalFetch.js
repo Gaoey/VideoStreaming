@@ -1,8 +1,8 @@
 global.Headers = () => ({
-    append: () => ({})
+  append: () => ({})
 })
 
-global.fetch = jest.fn();
+global.fetch = jest.fn()
 
 // Helper to mock a success response (only once)
 fetch.mockResponseSuccess = (body) => {

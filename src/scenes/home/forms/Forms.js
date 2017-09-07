@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, Text, Button } from 'react-native';
-import { Actions } from 'react-native-router-flux';
-import { project } from '../../../config';
+import React from 'react'
+import { View, Text, Button } from 'react-native'
+import { Actions } from 'react-native-router-flux'
+import { project } from '../../../config'
 
 const Forms = () => (
   <View>
@@ -24,4 +24,4 @@ const Forms = () => (
   </View>
 )
 
-export default Forms;
+export default Forms
