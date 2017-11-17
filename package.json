@@ -1,6 +1,6 @@
 {
   "name": "ModularKit",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "main": "src/",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
@@ -31,7 +31,7 @@
   "devDependencies": {
     "babel-eslint": "^7.2.3",
     "babel-jest": "20.0.3",
-    "babel-preset-react-native": "3.0.0",
+    "babel-preset-react-native": "2.1.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-formatter-pretty": "^1.1.0",
