@@ -10,6 +10,7 @@ export const Scenes = [
   { key: `${project.name}DefaultForm`, component: 'DefaultFrom', title: 'm DefaultForm', options: {} },
   { key: `${project.name}InitForm`, component: 'InitFrom', title: 'm InitForm', options: {} },
   { key: `${project.name}ValidateForm`, component: 'ValidateFrom', title: 'm ValidateForm', options: {} },
+  { key: `${project.name}VideoStreaming`, component: 'videoStreamingScene', title: 'videoStreaming', options: { initial: true } }
 ]
 
 const Routes = () => (

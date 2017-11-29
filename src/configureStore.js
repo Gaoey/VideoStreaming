@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import axios from 'axios'
+import logger from 'redux-logger'
 import Sherlockholmes from 'sherlockholmes'
 import { project } from './config'
 import reducers from './reducers'
@@ -13,7 +14,8 @@ export default (initialState) => {
   const middlewares = [
     callAPIMiddleware,
     axiosMiddleWare,
-    thunk.withExtraArgument(axios)
+    thunk.withExtraArgument(axios),
+    //logger
   ]
   if (project.ENVIRONMENT === 'dev') {
     middlewares.push(inspector)
